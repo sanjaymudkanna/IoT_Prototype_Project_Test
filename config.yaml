@@ -1,0 +1,105 @@
+# IoT Edge Device Configuration
+
+# Application Settings
+application:
+  name: "iot-edge-device"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  poll_interval: 5  # seconds between sensor reads
+  
+# MQTT Broker Configuration
+mqtt:
+  broker: "mqtt.example.com"
+  port: 1883
+  client_id: "edge-device-001"
+  username: "device_user"
+  password: "device_password"
+  qos: 1  # Quality of Service (0, 1, 2)
+  topic_prefix: "sensors/edge-001"
+  keepalive: 60
+  
+  # Reconnection Settings
+  reconnect:
+    max_retries: 10
+    initial_delay: 1  # seconds
+    max_delay: 300  # seconds
+    backoff_multiplier: 2
+    
+  # TLS/SSL (optional)
+  tls:
+    enabled: false
+    ca_certs: "/path/to/ca.crt"
+    certfile: "/path/to/client.crt"
+    keyfile: "/path/to/client.key"
+
+# Modbus RTU Sensor Configuration
+modbus:
+  enabled: true
+  port: "/dev/ttyUSB0"  # COM1 on Windows, /dev/ttyUSB0 on Linux
+  baudrate: 9600
+  parity: "N"  # N, E, O
+  stopbits: 1
+  bytesize: 8
+  timeout: 3  # seconds
+  
+  sensors:
+    - name: "temperature_sensor"
+      slave_id: 1
+      register_address: 0
+      register_count: 1
+      data_type: "float32"  # float32, int16, uint16, int32, uint32
+      scaling_factor: 0.1
+      unit: "celsius"
+      
+    - name: "humidity_sensor"
+      slave_id: 1
+      register_address: 2
+      register_count: 1
+      data_type: "float32"
+      scaling_factor: 0.1
+      unit: "percent"
+
+# I2C Sensor Configuration
+i2c:
+  enabled: true
+  bus: 1  # I2C bus number (typically 1 on Raspberry Pi)
+  
+  sensors:
+    - name: "pressure_sensor"
+      address: 0x76  # I2C device address
+      sensor_type: "BMP280"
+      register: 0xF7  # Data register
+      read_length: 6  # Number of bytes to read
+      unit: "hPa"
+      
+    - name: "light_sensor"
+      address: 0x23
+      sensor_type: "BH1750"
+      register: 0x10  # Continuous high-res mode
+      read_length: 2
+      unit: "lux"
+
+# Data Validation Rules
+validation:
+  temperature:
+    min: -40
+    max: 85
+    
+  humidity:
+    min: 0
+    max: 100
+    
+  pressure:
+    min: 300
+    max: 1100
+    
+  light:
+    min: 0
+    max: 100000
+
+# Telemetry Settings
+telemetry:
+  batch_enabled: false
+  batch_size: 10
+  include_timestamp: true
+  include_device_id: true
+  device_id: "edge-device-001"
