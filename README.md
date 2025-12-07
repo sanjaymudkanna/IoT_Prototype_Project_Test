@@ -1,4 +1,4 @@
-# IoT Edge Device - Production-Ready Python Project
+# IoT Edge Device - Prototyping test prod-Ready Python Project
 
 A complete, production-ready edge device application for reading sensor data via Modbus RTU/RS485 and I2C protocols, validating and normalizing telemetry, and publishing to MQTT with QoS 1.
 
