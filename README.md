@@ -403,9 +403,7 @@ source venv/bin/activate (Linux)
 
 This project is provided as-is for educational and commercial use.
 
-## Support
 
-For issues, questions, or contributions, please refer to the project documentation or contact the development team.
 
 ---
 
